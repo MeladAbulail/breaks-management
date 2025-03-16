@@ -1,6 +1,6 @@
 import React from "react";
 
-function RequestBreakDialogRow({ request }) {
+function RequestBreakDialogRow({ request, handleAcceptBreakRequest }) {
   return (
     <>
       <div className="flex justify-between items-center   p-4 rounded-md">
@@ -12,7 +12,12 @@ function RequestBreakDialogRow({ request }) {
           <button className="bg-transparent border-1 border-red-600 text-red-600 px-2 py-1  rounded-sm transition cursor-pointer">
             Reject
           </button>
-          <button className="bg-transparent  border-1 border-green-600 text-green-600   px-2 py-1 rounded-sm transition cursor-pointer">
+          <button
+            onClick={(e) => {
+              handleAcceptBreakRequest(request.id);
+            }}
+            className="bg-transparent  border-1 border-green-600 text-green-600   px-2 py-1 rounded-sm transition cursor-pointer"
+          >
             Accept
           </button>
         </div>

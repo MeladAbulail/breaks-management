@@ -10,14 +10,14 @@ const breakRequests = [
     userName: "Melad Abulail",
     timeFrom: "8:00 AM",
     timeTo: "8:10 AM",
-    accepted: null,
+    accepted: true,
   },
   {
     id: 2,
     userName: "Feras Khawaja",
     timeFrom: "9:30 AM",
     timeTo: "9:40 AM",
-    accepted: null,
+    accepted: true,
   },
   {
     id: 3,
@@ -38,7 +38,7 @@ const breakRequests = [
     userName: "Mohammad Ali",
     timeFrom: "2:30 PM",
     timeTo: "2:40 AM",
-    accepted: null,
+    accepted: false,
   },
 ];
 

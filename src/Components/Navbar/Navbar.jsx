@@ -17,11 +17,26 @@ function Navbar() {
     setIsOpenRequestsDialog(true);
   }
 
+  const handleAcceptBreakRequest = (id) => {
+    const values = JSON.parse(localStorage.getItem("breakRequests")).map(
+      (item) => {
+        if (item.id === id) {
+          item.accepted = true;
+        }
+        return item;
+      }
+    );
+    localStorage.setItem("breakRequests", JSON.stringify(values));
+
+    const newBreakRequests = values.filter((item) => item.accepted === null);
+
+    setBreakRequests(newBreakRequests);
+  };
+
   useEffect(() => {
     const values = JSON.parse(localStorage.getItem("breakRequests")).filter(
       (item) => item.accepted === null
     );
-    console.log("values", values);
 
     setBreakRequests(values);
   }, []);
@@ -38,7 +53,10 @@ function Navbar() {
             {breakRequests?.map((request, index) => (
               <>
                 <div index={index}>
-                  <RequestBreakDialogRow request={request} />
+                  <RequestBreakDialogRow
+                    request={request}
+                    handleAcceptBreakRequest={handleAcceptBreakRequest}
+                  />
                 </div>
               </>
             ))}
