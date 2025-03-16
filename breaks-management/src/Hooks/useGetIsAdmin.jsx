@@ -1,7 +1,7 @@
 const useGetIsAdmin = () => {
-  const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+  const isAdmin = JSON.parse(localStorage.getItem("isAdmin"))?.isAdmin;
 
-  return isAdmin;
+  return isAdmin || false;
 };
 
 export default useGetIsAdmin;

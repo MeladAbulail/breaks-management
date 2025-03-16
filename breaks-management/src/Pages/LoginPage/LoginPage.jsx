@@ -11,9 +11,9 @@ const LoginPage = () => {
   const handleSignIn = (e) => {
     e.preventDefault();
     const isAdmin =
-      data.user.toLowerCase() === "admin@gmail.com" &&
-      data.password.toLowerCase() === "admin";
-
+    data.user.toLowerCase() === "admin@gmail.com" &&
+    data.password.toLowerCase() === "admin";
+    
     signInHandler(data, isAdmin);
   };
 

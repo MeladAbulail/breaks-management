@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Timeline from "../../../Components/Timeline/Timeline";
+import "./styles.css";
+import { Dialog } from "../../../Components/DialogComponent";
 
 const AdminHomePage = () => {
   const [events, setEvents] = useState([]);
@@ -9,7 +11,7 @@ const AdminHomePage = () => {
     const startTime = new Date();
     startTime.setHours(8, 0, 0, 0);
     const endTime = new Date();
-    endTime.setHours(18, 0, 0, 0);
+    endTime.setHours(9, 0, 0, 0);
 
     while (startTime <= endTime) {
       intervals.push(
@@ -23,7 +25,8 @@ const AdminHomePage = () => {
       title: `Event ${index + 1}`,
       userName: `Feras ${index + 1}`,
       description: `Description of Event ${index + 1}`,
-      time: item,
+      timeFrom: item,
+      timeTo: item,
     }));
 
     setEvents(value);
@@ -34,9 +37,13 @@ const AdminHomePage = () => {
   }, []);
 
   return (
-    <div>
-      <Timeline events={events} />
-    </div>
+    <>
+      <div>
+        <div>
+          <Timeline events={events} />
+        </div>
+      </div>
+    </>
   );
 };
 
