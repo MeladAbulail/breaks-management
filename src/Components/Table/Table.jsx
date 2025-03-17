@@ -9,7 +9,7 @@ const options = [
   { id: 2, label: "Emergency Break" },
 ];
 
-function Table({ columns, rowsPerPage = 5 }) {
+function Table({ columns, rowsPerPage = 8 }) {
   const { breakRequests: breaks, setBreakRequests: setBreaks } =
     useAuthContext();
   const [currentPage, setCurrentPage] = useState(1);
@@ -35,10 +35,9 @@ function Table({ columns, rowsPerPage = 5 }) {
       ? data.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)
       : []
   );
-
-  const totalPages = Array.isArray(data)
-    ? Math.ceil(data.length / rowsPerPage)
-    : 0;
+  const [totalPages, setTotalPages] = useState(
+    Array.isArray(data) ? Math.ceil(data.length / rowsPerPage) : 0
+  );
 
   const handleSelectChange = (value) => {
     setNewBreakRequest({ ...newBreakRequest, reason: value });
@@ -60,6 +59,7 @@ function Table({ columns, rowsPerPage = 5 }) {
   const generateRandomId = () => {
     return Math.floor(1000000000 + Math.random() * 9000000000);
   };
+
   const parseTime = (timeStr) => {
     const [time, period] = timeStr.split(" ");
     let [hours, minutes] = time.split(":").map(Number);
@@ -94,22 +94,16 @@ function Table({ columns, rowsPerPage = 5 }) {
     };
 
     setSession(newSession);
-
     localStorage.setItem("session", JSON.stringify(newSession));
 
     const newBreakRequests = [...breakRequests, newRequest];
-
     localStorage.setItem("breakRequests", JSON.stringify(newBreakRequests));
     setBreakRequests(newBreakRequests);
     setBreaks([newRequest]);
-    setPaginatedData(
-      Array.isArray(JSON.parse(localStorage.getItem("session")).userBreaks)
-        ? JSON.parse(localStorage.getItem("session")).userBreaks.slice(
-            (currentPage - 1) * rowsPerPage,
-            currentPage * rowsPerPage
-          )
-        : []
-    );
+
+    const updatedData = newSession.userBreaks || [];
+    setTotalPages(Math.ceil(updatedData.length / rowsPerPage));
+    setPaginatedData(updatedData.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage));
     setIsOpen(false);
   };
 
@@ -130,6 +124,12 @@ function Table({ columns, rowsPerPage = 5 }) {
       });
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    const updatedData = session.userBreaks || [];
+    setTotalPages(Math.ceil(updatedData.length / rowsPerPage));
+    setPaginatedData(updatedData.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage));
+  }, [data, currentPage, rowsPerPage, session]);
 
   return (
     <>
