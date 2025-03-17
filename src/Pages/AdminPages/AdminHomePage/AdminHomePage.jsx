@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Timeline from "../../../Components/Timeline/Timeline";
 import "./styles.css";
-import { Dialog } from "../../../Components/DialogComponent";
+import { useAuthContext } from "../../../contexts/AuthContext";
 
 const AdminHomePage = () => {
-  const [acceptedBreaks, setAcceptedBreaks] = useState([]);
+  const { breakRequests, acceptedBreaks, setAcceptedBreaks } = useAuthContext();
 
   useEffect(() => {
     const values =
@@ -13,7 +13,7 @@ const AdminHomePage = () => {
       ) || [];
 
     setAcceptedBreaks(values);
-  }, []);
+  }, [breakRequests]);
 
   return (
     <>

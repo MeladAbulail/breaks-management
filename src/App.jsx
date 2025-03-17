@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import appRoutes from "./Pages/appRoutes";
 import Navbar from "./Components/Navbar/Navbar";
-import AuthProvider, { useAuthContext } from "./contexts/AuthContext";
+import { useAuthContext } from "./contexts/AuthContext";
 
 const breakRequests = [
   {
@@ -51,7 +51,6 @@ const App = () => {
   }, []);
 
   const routes = appRoutes(loggedIn, isAdmin);
-  console.log("🚀 ~ App ~ loggedIn:", loggedIn);
 
   return (
     <div className="min-h-screen bg-[#FFF] flex flex-col">

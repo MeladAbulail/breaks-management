@@ -8,10 +8,16 @@ import RequestBreakDialogRow from "./RequestBreakDialogRow";
 
 function Navbar() {
   const navigate = useNavigate();
-  const { loggedIn, isAdmin, signOutHandler } = useAuthContext();
+  const {
+    loggedIn,
+    isAdmin,
+    breakRequests,
+    setBreakRequests,
+    signOutHandler,
+    acceptedBreaks,
+  } = useAuthContext();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isOpenRequestsDialog, setIsOpenRequestsDialog] = useState(false);
-  const [breakRequests, setBreakRequests] = useState([]);
 
   function openRequestsDialog() {
     setIsOpenRequestsDialog(true);
@@ -33,13 +39,29 @@ function Navbar() {
     setBreakRequests(newBreakRequests);
   };
 
+  const handleRejectBreakRequest = (id) => {
+    const values = JSON.parse(localStorage.getItem("breakRequests")).map(
+      (item) => {
+        if (item.id === id) {
+          item.accepted = false;
+        }
+        return item;
+      }
+    );
+    localStorage.setItem("breakRequests", JSON.stringify(values));
+
+    const newBreakRequests = values.filter((item) => item.accepted === null);
+
+    setBreakRequests(newBreakRequests);
+  };
+
   useEffect(() => {
-    const values = JSON.parse(localStorage.getItem("breakRequests")).filter(
+    const values = JSON.parse(localStorage.getItem("breakRequests"))?.filter(
       (item) => item.accepted === null
     );
 
     setBreakRequests(values);
-  }, []);
+  }, [loggedIn]);
 
   return (
     <>
@@ -50,16 +72,19 @@ function Navbar() {
         withoutSubmitButton={true}
         dialogContent={
           <div className="space-y-4">
-            {breakRequests?.map((request, index) => (
-              <>
-                <div index={index}>
+            {breakRequests.length > 0 ? (
+              breakRequests.map((request, index) => (
+                <div key={index}>
                   <RequestBreakDialogRow
                     request={request}
                     handleAcceptBreakRequest={handleAcceptBreakRequest}
+                    handleRejectBreakRequest={handleRejectBreakRequest}
                   />
                 </div>
-              </>
-            ))}
+              ))
+            ) : (
+              <div className="text-center">No pending requests</div>
+            )}
           </div>
         }
       />
@@ -86,9 +111,11 @@ function Navbar() {
                         openRequestsDialog();
                       }}
                     >
-                      <div className="relative">
-                        <div className="w-[15px] h-[15px] bg-green-600 animate-pulse rounded-full absolute -right-5 -top-3"></div>
-                      </div>
+                      {breakRequests.length > 0 && (
+                        <div className="relative">
+                          <div className="w-[15px] h-[15px] bg-green-600 animate-pulse rounded-full absolute -right-5 -top-3"></div>
+                        </div>
+                      )}
                       Requests
                     </button>
                   </div>

@@ -13,6 +13,7 @@ const Dialog = ({
   function onConfirmClicked() {
     setShowModal(false);
     onConfirm?.();
+    onClose?.();
   }
 
   function handleDialogClose() {
@@ -69,7 +70,6 @@ const Dialog = ({
                       shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 cursor-pointer"
                         type="button"
                         onClick={(e) => {
-                          e?.preventDefault();
                           onConfirmClicked();
                         }}
                       >
