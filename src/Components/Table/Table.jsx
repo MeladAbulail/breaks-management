@@ -77,7 +77,7 @@ function Table({ columns, rowsPerPage = 8 }) {
 
     const newRequest = {
       id: generateRandomId(),
-      userName: "Melad Abulail",
+      userName: session?.userName || "Feras Khawaja",
       timeFrom: newBreakRequest.timeFrom,
       timeTo: newBreakRequest.timeTo,
       accepted: null,
@@ -103,7 +103,12 @@ function Table({ columns, rowsPerPage = 8 }) {
 
     const updatedData = newSession.userBreaks || [];
     setTotalPages(Math.ceil(updatedData.length / rowsPerPage));
-    setPaginatedData(updatedData.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage));
+    setPaginatedData(
+      updatedData.slice(
+        (currentPage - 1) * rowsPerPage,
+        currentPage * rowsPerPage
+      )
+    );
     setIsOpen(false);
   };
 
@@ -128,7 +133,12 @@ function Table({ columns, rowsPerPage = 8 }) {
   useEffect(() => {
     const updatedData = session.userBreaks || [];
     setTotalPages(Math.ceil(updatedData.length / rowsPerPage));
-    setPaginatedData(updatedData.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage));
+    setPaginatedData(
+      updatedData.slice(
+        (currentPage - 1) * rowsPerPage,
+        currentPage * rowsPerPage
+      )
+    );
   }, [data, currentPage, rowsPerPage, session]);
 
   return (

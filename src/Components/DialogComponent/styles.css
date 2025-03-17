@@ -1,0 +1,4 @@
+.custom-dialog {
+    max-height: 300px !important;
+    overflow-y: auto !important;
+  }
